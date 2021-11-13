@@ -55,12 +55,20 @@ Features compute_features(const float *x, int N) {
  * TODO: Init the values of vad_data
  */
 
+<<<<<<< HEAD
 VAD_DATA * vad_open(float rate, float alfa1) {
+=======
+VAD_DATA * vad_open(float rate, float alpha1) {
+>>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
   VAD_DATA *vad_data = malloc(sizeof(VAD_DATA));
   vad_data->state = ST_INIT;
   vad_data->sampling_rate = rate;
   vad_data->frame_length = rate * FRAME_TIME * 1e-3;
+<<<<<<< HEAD
   vad_data->alfa1 = alfa1; 
+=======
+  vad_data->alpha1 = alpha1;
+>>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
   return vad_data;
 }
 
@@ -96,7 +104,11 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
   switch (vad_data->state) {
   case ST_INIT:
     vad_data->p0 = f.p;
+<<<<<<< HEAD
     vad_data->p1 = vad_data->p0 + vad_data->alfa1;
+=======
+    vad_data->p1 = vad_data->p0 + vad_data->alpha1;
+>>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
     vad_data->state = ST_SILENCE;
     break;
 
