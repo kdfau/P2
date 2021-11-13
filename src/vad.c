@@ -55,11 +55,12 @@ Features compute_features(const float *x, int N) {
  * TODO: Init the values of vad_data
  */
 
-VAD_DATA * vad_open(float rate) {
+VAD_DATA * vad_open(float rate, float alfa1) {
   VAD_DATA *vad_data = malloc(sizeof(VAD_DATA));
   vad_data->state = ST_INIT;
   vad_data->sampling_rate = rate;
   vad_data->frame_length = rate * FRAME_TIME * 1e-3;
+  vad_data->alfa1 = alfa1; 
   return vad_data;
 }
 
@@ -94,16 +95,18 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
 
   switch (vad_data->state) {
   case ST_INIT:
+    vad_data->p0 = f.p;
+    vad_data->p1 = vad_data->p0 + vad_data->alfa1;
     vad_data->state = ST_SILENCE;
     break;
 
   case ST_SILENCE:
-    if (f.p > 0.95)
+    if (f.p > vad_data->p1)
       vad_data->state = ST_VOICE;
     break;
 
   case ST_VOICE:
-    if (f.p < 0.01)
+    if (f.p < vad_data->p1)
       vad_data->state = ST_SILENCE;
     break;
 

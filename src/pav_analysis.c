@@ -5,7 +5,7 @@ float PI = acos(-1);
 
 float compute_power(const float *x, unsigned int N) {
     int i;
-    float P=0;
+    float P=0.0001;
     float sum=0;
 
     for(i=0; i<N; i++){
