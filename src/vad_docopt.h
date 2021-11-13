@@ -16,11 +16,7 @@ typedef struct {
     int verbose;
     int version;
     /* options with arguments */
-<<<<<<< HEAD
-    char *alfa1;
-=======
     char *alpha1;
->>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
     char *input_wav;
     char *output_vad;
     char *output_wav;
@@ -41,11 +37,7 @@ const char help_message[] =
 "   -i FILE, --input-wav=FILE   WAVE file for voice activity detection\n"
 "   -o FILE, --output-vad=FILE  Label file with the result of VAD\n"
 "   -w FILE, --output-wav=FILE  WAVE file with silences cleared\n"
-<<<<<<< HEAD
-"   -1 float, --alfa1=float     Threshold1 [default: 10]\n"
-=======
 "   -1 REAL, --alpha1=REAL      THRESHOLE decisor 1 [default: 10]\n"
->>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
 "   -v, --verbose  Show debug information\n"
 "   -h, --help     Show this screen\n"
 "   --version      Show the version of the project";
@@ -279,15 +271,9 @@ int elems_to_args(Elements *elements, DocoptArgs *args, bool help,
             args->verbose = option->value;
         } else if (!strcmp(option->olong, "--version")) {
             args->version = option->value;
-<<<<<<< HEAD
-        } else if (!strcmp(option->olong, "--alfa1")) {
-            if (option->argument)
-                args->alfa1 = option->argument;
-=======
         } else if (!strcmp(option->olong, "--alpha1")) {
             if (option->argument)
                 args->alpha1 = option->argument;
->>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
         } else if (!strcmp(option->olong, "--input-wav")) {
             if (option->argument)
                 args->input_wav = option->argument;
@@ -329,11 +315,7 @@ DocoptArgs docopt(int argc, char *argv[], bool help, const char *version) {
         {"-h", "--help", 0, 0, NULL},
         {"-v", "--verbose", 0, 0, NULL},
         {NULL, "--version", 0, 0, NULL},
-<<<<<<< HEAD
-        {"-1", "--alfa1", 1, 0, NULL},
-=======
         {"-1", "--alpha1", 1, 0, NULL},
->>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
         {"-i", "--input-wav", 1, 0, NULL},
         {"-o", "--output-vad", 1, 0, NULL},
         {"-w", "--output-wav", 1, 0, NULL}

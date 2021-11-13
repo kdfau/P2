@@ -29,7 +29,7 @@ typedef struct {
 } Features;
 
 /* 
- * TODO: Delete and use your own features!
+ * DONE: Delete and use your own features!
  */
 
 Features compute_features(const float *x, int N) {
@@ -52,23 +52,17 @@ Features compute_features(const float *x, int N) {
 }
 
 /* 
- * TODO: Init the values of vad_data
+ * DONE: Init the values of vad_data
  */
 
-<<<<<<< HEAD
-VAD_DATA * vad_open(float rate, float alfa1) {
-=======
 VAD_DATA * vad_open(float rate, float alpha1) {
->>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
   VAD_DATA *vad_data = malloc(sizeof(VAD_DATA));
   vad_data->state = ST_INIT;
   vad_data->sampling_rate = rate;
   vad_data->frame_length = rate * FRAME_TIME * 1e-3;
-<<<<<<< HEAD
-  vad_data->alfa1 = alfa1; 
-=======
   vad_data->alpha1 = alpha1;
->>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
+  vad_data->cms = 0;
+  vad_data->cmv = 0;
   return vad_data;
 }
 
@@ -104,30 +98,63 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
   switch (vad_data->state) {
   case ST_INIT:
     vad_data->p0 = f.p;
-<<<<<<< HEAD
-    vad_data->p1 = vad_data->p0 + vad_data->alfa1;
-=======
     vad_data->p1 = vad_data->p0 + vad_data->alpha1;
->>>>>>> 9164f1e2f37cedbb0c6b09a204bc078e9199fb4c
     vad_data->state = ST_SILENCE;
     break;
 
   case ST_SILENCE:
-    if (f.p > vad_data->p1)
-      vad_data->state = ST_VOICE;
+    vad_data->cms = 0;
+    vad_data->cmv = 0;
+    if (f.p > vad_data->p1) //definir un valor
+      vad_data->state = ST_UNDEF;
     break;
 
   case ST_VOICE:
-    if (f.p < vad_data->p1)
-      vad_data->state = ST_SILENCE;
+    vad_data->cms = 0;
+    vad_data->cmv = 0;
+    if (f.p < vad_data->p1) //definir un valor
+      vad_data->state = ST_UNDEF;
     break;
 
+ /* case ST_MAYBE_SILENCE:
+    if(vad_data->cms < 4){
+      cms ++;
+    }
+    else{
+      if(f.p < vad_data->valor) //falta per definir valor
+        vad_data->state = ST_SILENCE;
+      }
+      else{
+        vad:data->state = ST_VOICE;
+       }
+    }
+  break;
+
+  case ST_MAYBE_VOICE:
+    if(vad_data->cmv < 4){
+      cmv++;
+    }
+    else{
+      if(f.p > vad_data->valor2){ //falta per definir valor2
+        vad_data->state = ST_VOICE;
+      }
+      else{
+        vad_data->state = ST_SILENCE;
+      }
+    }
+  break;
+*/
   case ST_UNDEF:
+    if(f.p < vad_data->p1){ //valor 
+        vad_data->state =ST_SILENCE;
+    }
+    else if (f.p > vad_data->p1){ //valor2
+        vad_data->state =ST_VOICE;
+    }
     break;
   }
 
-  if (vad_data->state == ST_SILENCE ||
-      vad_data->state == ST_VOICE)
+  if (vad_data->state == ST_SILENCE || vad_data->state == ST_VOICE)
     return vad_data->state;
   else
     return ST_UNDEF;
