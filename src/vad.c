@@ -60,8 +60,8 @@ VAD_DATA * vad_open(float rate, float alpha1) {
   vad_data->state = ST_INIT;
   vad_data->sampling_rate = rate;
   vad_data->frame_length = rate * FRAME_TIME * 1e-3;
-  vad_data->alpha1 = 4; //alpha1;
-  //vad_data->alpha2 = alpha1 + 1; 
+  vad_data->alpha1 = 4; //alpha1; //4
+  vad_data->alpha2 = 6; 
   vad_data->cms = 0;
   vad_data->cmv = 0;
   return vad_data;
@@ -105,7 +105,7 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
     else{
     vad_data->p0 = f.p;
     vad_data->p1 = vad_data->p0 + vad_data->alpha1;
-    //vad_data->p2 = vad_data->p1 + 5;
+    vad_data->p2 = vad_data->p1 + vad_data->alpha2;
    /*
     vad_data->k0 = 10*log10(vad_data->k0/vad_data->cn);
     vad_data->k1 = vad_data->k0 + vad_data->alpha1;
@@ -148,7 +148,7 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
       vad_data->cmv++;
     }
     else{
-      if(f.p > (vad_data->p1 + 5)){ 
+      if(f.p > vad_data->p2){ 
         vad_data->state = ST_VOICE;
       }
       else{

@@ -17,7 +17,7 @@ typedef struct {
   float sampling_rate;
   unsigned int frame_length;
   float last_feature; /* for debuggin purposes */
-  float p0, p1; //k0, k1, k2;
+  float p0, p1, p2; //k0, k1, k2;
   float alpha1, alpha2;
   int cms, cmv; //contadores Maybe Silence, Maybe Voice
   int cn, c_inicial; //Contador N y contador inicial
