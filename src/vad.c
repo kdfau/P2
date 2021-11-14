@@ -72,7 +72,7 @@ VAD_STATE vad_close(VAD_DATA *vad_data) {
    * TODO: decide what to do with the last undecided frames
    */
   VAD_STATE state = vad_data->state;
-
+  
   free(vad_data);
   return state;
 }
