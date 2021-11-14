@@ -60,7 +60,8 @@ VAD_DATA * vad_open(float rate, float alpha1) {
   vad_data->state = ST_INIT;
   vad_data->sampling_rate = rate;
   vad_data->frame_length = rate * FRAME_TIME * 1e-3;
-  vad_data->alpha1 = alpha1;
+  vad_data->alpha1 = 4; //alpha1;
+  //vad_data->alpha2 = alpha1 + 1; 
   vad_data->cms = 0;
   vad_data->cmv = 0;
   return vad_data;
@@ -97,45 +98,57 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
 
   switch (vad_data->state) {
   case ST_INIT:
+    if(vad_data->c_inicial < vad_data->cn){
+        vad_data->c_inicial++;
+       // vad_data->k0 += pow(10, f.p/10); 
+    }
+    else{
     vad_data->p0 = f.p;
     vad_data->p1 = vad_data->p0 + vad_data->alpha1;
+    //vad_data->p2 = vad_data->p1 + 5;
+   /*
+    vad_data->k0 = 10*log10(vad_data->k0/vad_data->cn);
+    vad_data->k1 = vad_data->k0 + vad_data->alpha1;
+    vad_data->k2 = vad_data->k1 + vad_data->alpha2; 
+    */
     vad_data->state = ST_SILENCE;
+    }
     break;
 
   case ST_SILENCE:
     vad_data->cms = 0;
     vad_data->cmv = 0;
-    if (f.p > vad_data->p1) //definir un valor
-      vad_data->state = ST_UNDEF;
+    if (f.p > vad_data->p1) 
+      vad_data->state = ST_MAYBE_VOICE;
     break;
 
   case ST_VOICE:
     vad_data->cms = 0;
     vad_data->cmv = 0;
-    if (f.p < vad_data->p1) //definir un valor
-      vad_data->state = ST_UNDEF;
+    if (f.p < vad_data->p1) 
+      vad_data->state = ST_MAYBE_SILENCE;
     break;
 
- /* case ST_MAYBE_SILENCE:
-    if(vad_data->cms < 4){
-      cms ++;
+  case ST_MAYBE_SILENCE:
+    if(vad_data->cms < 3){
+      vad_data->cms ++;
     }
     else{
-      if(f.p < vad_data->valor) //falta per definir valor
+      if(f.p < vad_data->p1) {
         vad_data->state = ST_SILENCE;
       }
       else{
-        vad:data->state = ST_VOICE;
+        vad_data->state = ST_VOICE;
        }
     }
   break;
 
   case ST_MAYBE_VOICE:
-    if(vad_data->cmv < 4){
-      cmv++;
+    if(vad_data->cmv < 3){
+      vad_data->cmv++;
     }
     else{
-      if(f.p > vad_data->valor2){ //falta per definir valor2
+      if(f.p > (vad_data->p1 + 5)){ 
         vad_data->state = ST_VOICE;
       }
       else{
@@ -143,18 +156,20 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x) {
       }
     }
   break;
-*/
-  case ST_UNDEF:
+
+  case ST_UNDEF: 
+  /*
     if(f.p < vad_data->p1){ //valor 
         vad_data->state =ST_SILENCE;
     }
     else if (f.p > vad_data->p1){ //valor2
         vad_data->state =ST_VOICE;
-    }
+    } 
+    */
     break;
   }
 
-  if (vad_data->state == ST_SILENCE || vad_data->state == ST_VOICE)
+  if (vad_data->state == ST_SILENCE || vad_data->state == ST_VOICE/*||vad_data->state == ST_MAYBE_VOICE || vad_data->state == ST_MAYBE_SILENCE*/)
     return vad_data->state;
   else
     return ST_UNDEF;
