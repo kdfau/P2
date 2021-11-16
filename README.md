@@ -105,21 +105,25 @@ Ejercicios
   continuación, una captura de `wavesurfer` en la que se vea con claridad la señal temporal, el contorno de
   potencia y la tasa de cruces por cero, junto con el etiquetado manual de los segmentos.
 
-  ![image](https://user-images.githubusercontent.com/91891272/141686442-9d426f2a-506d-4310-9f7c-5ff81ad74869.png)
+![Captura1](https://user-images.githubusercontent.com/91891272/141955720-f819fb96-d28d-489f-9f83-6d2cc586b140.PNG)
+
 
 - A la vista de la gráfica, indique qué valores considera adecuados para las magnitudes siguientes:
 
 	* Incremento del nivel potencia en dB, respecto al nivel correspondiente al silencio inicial, para
 	  estar seguros de que un segmento de señal se corresponde con voz.
+	  
 	  Si miramos el nivel de silencio al principio es de aproximadamente 20dB. Observando la gráfica y 
 	  fijandonos en como varia la señal de voz cuando tenemos tramas de voz y silencio podemos decir
 	  que el incremento de nivel de potencia es de aproximadamente 40dB. 
 
 	* Duración mínima razonable de los segmentos de voz y silencio.
+	  
 	  La duración mínima razonable de los segmentos de voz y silencio es de aproximadamente 0.8s. 
 	  
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?	
- 	  En teoria observamos que la tasa de cruces por cero es útil para encontrar los sonidos sordos(tasa muy alta), 
+ 	  
+	  En teoria observamos que la tasa de cruces por cero es útil para encontrar los sonidos sordos(tasa muy alta), 
 	  para detectar cuando hay voz(tasa relativamente baja) o silencio(tasa alta) y para diferenciar un tramo de 
 	  silencio con ruido de fondo(tasa media).
 	  Como observamos en nuestra gráfica la tasa de cruces por zero incrementa mucho en los silencios y es relativamente 
@@ -133,15 +137,21 @@ Ejercicios
 
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
   automática conseguida para el fichero grabado al efecto. 
-  ![image](https://user-images.githubusercontent.com/91891272/141687459-8eb6863a-04ea-458d-be92-53941db07ff5.png)
+  
+  ![Captura2](https://user-images.githubusercontent.com/91891272/141955805-ba64899d-c1d1-489b-94b4-1273ad119c98.PNG)
+
 
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
-  En este caso como la señal es bastante simple, el detector funciona perfectamente y el etiquetado manual era
-  bastante fácil de acertar, es por esto que los dos etiquetados son iguales.
+  
+  En este caso como la señal es bastante simple el etiquetado manual es bastante acertado pero como vemos el 
+  etiquetado de la detección automatica tiene fallos, creemos que se corresponde con algún fallo de unidades en los
+  segundos, puesto que la voz en este etiquetado empieza en el 0,07 en lugar del 0,7. Aún así no descartamos que se 
+  deba a algún otro motivo. 
 
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
+  
   ![image](https://user-images.githubusercontent.com/91891272/141687682-cbac6012-12e4-45a7-ad98-e7b9e83f399b.png)
 
 ### Trabajos de ampliación
@@ -156,6 +166,8 @@ Ejercicios
 
 - Si ha usado `docopt_c` para realizar la gestión de las opciones y argumentos del programa `vad`, inserte
   una captura de pantalla en la que se vea el mensaje de ayuda del programa.
+  
+![captura](https://user-images.githubusercontent.com/91891272/141777940-fcf5c7d3-46c6-48a6-ae37-6c6509c45451.png)
 
 
 ### Contribuciones adicionales y/o comentarios acerca de la práctica
